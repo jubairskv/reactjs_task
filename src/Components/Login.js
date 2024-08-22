@@ -11,7 +11,6 @@ const LoginPage = () => {
 
   const loginUser = async (event) => {
     event.preventDefault(); // Prevent the default form submission
-
     try {
       const response = await fetch(API_URL, {
         method: "POST",
