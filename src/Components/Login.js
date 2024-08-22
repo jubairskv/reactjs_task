@@ -66,7 +66,7 @@ const LoginPage = () => {
             </div>
             <div className="flex flex-col pt-2">
               <label className="pr-[78%] font-medium text-base">
-                Password <span class="text-red-500">*</span>
+                Password <span className="text-red-500">*</span>
               </label>
               <input
                 type="password"
