@@ -33,7 +33,7 @@ const LoginPage = () => {
       if (response.ok) {
         console.log("Login successful:", data);
         // Handle successful login, e.g., storing tokens, redirecting, etc.
-        navigate("/dashboard"); // Redirect to dashboard or another route after successful login
+        navigate("/body"); // Redirect to dashboard or another route after successful login
       } else {
         console.error("Login failed:", data);
         // Handle login failure
