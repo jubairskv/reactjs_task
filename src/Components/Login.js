@@ -27,6 +27,7 @@ const LoginPage = () => {
           user_type: userType,
         }),
       });
+      console.log(response)
 
       const data = await response.json();
 
