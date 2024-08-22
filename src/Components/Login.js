@@ -52,7 +52,7 @@ const LoginPage = () => {
         <div className="pt-8">
           <form onSubmit={loginUser}>
             <div className="flex flex-col">
-              <label className="pr-36 font-medium text-base">
+              <label className="pr-[82%] font-medium text-base">
                 Mobile <span class="text-red-500">*</span>{" "}
               </label>
               <input
@@ -65,7 +65,7 @@ const LoginPage = () => {
               />
             </div>
             <div className="flex flex-col pt-2">
-              <label className="pr-28 font-medium text-base">
+              <label className="pr-[78%] font-medium text-base">
                 Password <span class="text-red-500">*</span>
               </label>
               <input
