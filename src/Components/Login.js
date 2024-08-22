@@ -53,7 +53,7 @@ const LoginPage = () => {
           <form onSubmit={loginUser}>
             <div className="flex flex-col">
               <label className="pr-[82%] font-medium text-base">
-                Mobile <span class="text-red-500">*</span>{" "}
+                Mobile <span className="text-red-500">*</span>{" "}
               </label>
               <input
                 type="text"
@@ -118,10 +118,8 @@ const LoginPage = () => {
             <div className="ml-16 mt-8">
               <p className="flex gap-2 text-gray-600">
                 Don't have an account?
-                <Link to="/signup">
-                  <h6 className="underline text-blue-800 font-medium">
-                    Register here
-                  </h6>
+                <Link to="/signup" className="underline text-blue-800 font-medium" >
+                  Register here
                 </Link>
               </p>
             </div>
