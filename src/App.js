@@ -13,39 +13,39 @@ const appRouter = createBrowserRouter([
     element: <LoginPage />,
   },
   {
-    path: "/Body",
+    path: "/body",
     element: <Body />,
-    children: [
-      {
-        path: "profile",
-        element: <Profile />,
-      },
-      {
-        path: "user",
-        element: <User />,
-      },
-      {
-        path: "settings",
-        element: <Settings />,
-      },
-      {
-        path: "*",
-        element: <Dashborad />, // Default to Dashboard if no other route matches
-      },
-    ],
+    // children: [
+    //   {
+    //     path: "profile",
+    //     element: <Profile />,
+    //   },
+    //   {
+    //     path: "user",
+    //     element: <User />,
+    //   },
+    //   {
+    //     path: "settings",
+    //     element: <Settings />,
+    //   },
+    //   {
+    //     path: "*",
+    //     element: <Dashborad />, // Default to Dashboard if no other route matches
+    //   },
+    // ],
   },
-  // {
-  //   path: "/Profile",
-  //   element: <Profile />,
-  // },
-  // {
-  //   path: "/User",
-  //   element: <User />,
-  // },
-  // {
-  //   path: "/Settings",
-  //   element: <Settings />,
-  // },
+  {
+    path: "/Profile",
+    element: <Profile />,
+  },
+  {
+    path: "/User",
+    element: <User />,
+  },
+  {
+    path: "/Settings",
+    element: <Settings />,
+  },
 ]);
 
 function App() {

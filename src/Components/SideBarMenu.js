@@ -19,7 +19,7 @@ const SideBarMenu = ({ data }) => {
         navigate("settings");
         break;
       default:
-        navigate("/body"); // Redirect to Dashboard or default route
+        navigate(""); // Redirect to Dashboard or default route
         break;
     }
   };
