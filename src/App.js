@@ -17,15 +17,15 @@ const appRouter = createBrowserRouter([
     element: <Body />,
     children: [
       {
-        path: "/profile",
+        path: "profile",
         element: <Profile />,
       },
       {
-        path: "/user",
+        path: "user",
         element: <User />,
       },
       {
-        path: "/settings",
+        path: "settings",
         element: <Settings />,
       },
       {
