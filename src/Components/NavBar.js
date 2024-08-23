@@ -2,12 +2,15 @@ import React from "react";
 import { IoSettingsOutline } from "react-icons/io5";
 import { FaRegBell } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   return (
     <div className="w-[85rem] h-24 bg-white border flex justify-evenly items-center ">
       <div className="font-bold text-2xl flex flex-1 ml-10">
-        <h1>Dashborad</h1>
+        <h1>
+          <Link to="/body">Dashboard</Link>
+        </h1>
       </div>
       <div className="flex gap-8 mr-10">
         <div>
