@@ -10,27 +10,20 @@ const SideBarMenu = ({ data }) => {
   const handleNavigation = (menuName) => {
     switch (menuName) {
       case "Profile":
-        navigate("profile");
+        navigate("/body/profile");
         break;
       case "User":
-        navigate("user");
+        navigate("/body/user");
         break;
       case "Settings":
-        navigate("settings");
+        navigate("/body/settings");
         break;
       default:
-        navigate(""); // Redirect to Dashboard or default route
+        navigate("/body"); 
         break;
     }
   };
 
-//   // Example menu items (this should be populated based on your data)
-//   const menuItems = [
-//     { menu_name: "Dashboard" },
-//     { menu_name: "Profile" },
-//     { menu_name: "User" },
-//     { menu_name: "Settings" },
-//   ];
 
   return (
     <div className="bg-white w-52 h-[100vh] flex flex-col items-center text-xl">

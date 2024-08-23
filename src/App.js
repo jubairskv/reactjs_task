@@ -15,37 +15,37 @@ const appRouter = createBrowserRouter([
   {
     path: "/body",
     element: <Body />,
-    // children: [
-    //   {
-    //     path: "profile",
-    //     element: <Profile />,
-    //   },
-    //   {
-    //     path: "user",
-    //     element: <User />,
-    //   },
-    //   {
-    //     path: "settings",
-    //     element: <Settings />,
-    //   },
-    //   {
-    //     path: "*",
-    //     element: <Dashborad />, // Default to Dashboard if no other route matches
-    //   },
-    // ],
+    children: [
+      {
+        path: "/body",
+        element: <Dashborad />, 
+      },
+      {
+        path: "/body/profile",
+        element: <Profile />,
+      },
+      {
+        path: "/body/user",
+        element: <User />,
+      },
+      {
+        path: "/body/settings",
+        element: <Settings />,
+      },
+    ],
   },
-  {
-    path: "/Profile",
-    element: <Profile />,
-  },
-  {
-    path: "/User",
-    element: <User />,
-  },
-  {
-    path: "/Settings",
-    element: <Settings />,
-  },
+  // {
+  //   path: "/Profile",
+  //   element: <Profile />,
+  // },
+  // {
+  //   path: "/User",
+  //   element: <User />,
+  // },
+  // {
+  //   path: "/Settings",
+  //   element: <Settings />,
+  // },
 ]);
 
 function App() {

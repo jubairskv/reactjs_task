@@ -2,7 +2,7 @@ import React from "react";
 import SideBarMenu from "./SideBarMenu";
 import { Outlet ,useLocation} from "react-router-dom";
 import NavBar from "./NavBar";
-import Dashborad from "./Dashborad";
+//import Dashborad from "./Dashborad";
 
 const Body = () => {
   const location= useLocation();
@@ -15,7 +15,7 @@ const Body = () => {
       <div className="flex flex-col flex-grow">
         <NavBar />
         <div className="flex-grow p-4 overflow-y-auto">
-          <Dashborad />
+          <Outlet />
         </div>
       </div>
     </div>
