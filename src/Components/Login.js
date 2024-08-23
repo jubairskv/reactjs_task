@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const [mobile, setMobile] = useState("");
+  const [userName, setuserName] = useState("");
   const [password, setPassword] = useState("");
   const [userType] = useState("CORPORATE"); // Default to CORPORATE
 
@@ -22,19 +22,18 @@ const LoginPage = () => {
           Deviceid: "12345678901234567",
         },
         body: JSON.stringify({
-          mobile: mobile,
+          user_name: userName,
           password: password,
           user_type: userType,
         }),
       });
-      console.log(response)
+      //console.log(response);
 
       const data = await response.json();
 
-      if (response.ok) {
-        console.log("Login successful:", data);
-        // Handle successful login, e.g., storing tokens, redirecting, etc.
-        navigate("/body"); // Redirect to dashboard or another route after successful login
+      if (response.ok && data.code === 1) {
+        //console.log("Login successful:", data);
+        navigate("/body", { state: { userData: data } }); // Redirect to dashboard or another route after successful login
       } else {
         console.error("Login failed:", data);
         // Handle login failure
@@ -59,8 +58,8 @@ const LoginPage = () => {
               <input
                 type="text"
                 placeholder="Mobile"
-                value={mobile}
-                onChange={(e) => setMobile(e.target.value)}
+                value={userName}
+                onChange={(e) => setuserName(e.target.value)}
                 required
                 className="border rounded-lg w-96 h-12 p-2 mt-2"
               />
@@ -119,7 +118,10 @@ const LoginPage = () => {
             <div className="ml-16 mt-8">
               <p className="flex gap-2 text-gray-600">
                 Don't have an account?
-                <Link to="/signup" className="underline text-blue-800 font-medium" >
+                <Link
+                  to="/signup"
+                  className="underline text-blue-800 font-medium"
+                >
                   Register here
                 </Link>
               </p>
