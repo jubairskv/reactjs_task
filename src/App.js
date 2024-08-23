@@ -33,16 +33,16 @@ const appRouter = createBrowserRouter([
         path: "settings",
         element: <Settings />,
       },
-      {
-        path: "addprofile",
-        element: <AddProfile />,
-      },
+      // {
+      //   path: "addprofile",
+      //   element: <AddProfile />,
+      // },
     ],
   },
-  // {
-  //   path: "/addprofile",
-  //   element: <AddProfile />,
-  // },
+  {
+    path: "/addprofile",
+    element: <AddProfile />,
+  },
   // {
   //   path: "/User",
   //   element: <User />,

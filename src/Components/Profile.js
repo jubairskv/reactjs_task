@@ -7,7 +7,7 @@ const Profile = () => {
   const [profileData, setProfileData] = useState(null);
   const [openDropdowns, setOpenDropdowns] = useState([]);
   const location = useLocation();
-  const userData = location.state?.userData.menu_array[0];
+  const userData = location?.state?.userData.menu_array[0];
   console.log(userData);
 
   useEffect(() => {
@@ -62,7 +62,7 @@ const Profile = () => {
         <h1 className="text-center text-2xl font-bold">Profile Page</h1>
         <div>
           <button className="w-20 h-10 bg-blue-800 rounded-lg text-white">
-            {userData.actions[0].action_name}
+            <Link to="/addprofile">{userData.actions[0].action_name}</Link>
           </button>
         </div>
       </div>
