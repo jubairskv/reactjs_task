@@ -18,8 +18,8 @@ const appRouter = createBrowserRouter([
     element: <Body />,
     children: [
       {
-        index:true,
-        element: <Dashborad />, 
+        index: true,
+        element: <Dashborad />,
       },
       {
         path: "profile",
@@ -33,10 +33,10 @@ const appRouter = createBrowserRouter([
         path: "settings",
         element: <Settings />,
       },
-      // {
-      //   path: "addprofile",
-      //   element: <AddProfile />,
-      // },
+      {
+        path: "addprofile",
+        element: <AddProfile />,
+      },
     ],
   },
   {
@@ -62,8 +62,6 @@ function App() {
 }
 
 export default App;
-
-
 
 // import React from "react";
 // import { BrowserRouter as Router, Routes, Route } from "react-router-dom";

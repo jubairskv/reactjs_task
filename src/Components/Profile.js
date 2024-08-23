@@ -62,7 +62,7 @@ const Profile = () => {
         <h1 className="text-center text-2xl font-bold">Profile Page</h1>
         <div>
           <button className="w-20 h-10 bg-blue-800 rounded-lg text-white">
-            <Link to="/addprofile">{userData.actions[0].action_name}</Link>
+            <Link to="/body/addprofile">{userData.actions[0].action_name}</Link>
           </button>
         </div>
       </div>
