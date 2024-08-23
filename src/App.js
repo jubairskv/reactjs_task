@@ -17,7 +17,7 @@ const appRouter = createBrowserRouter([
     element: <Body />,
     children: [
       {
-        index:true,
+        index:"*",
         element: <Dashborad />, 
       },
       {
@@ -34,18 +34,6 @@ const appRouter = createBrowserRouter([
       },
     ],
   },
-  // {
-  //   path: "/Profile",
-  //   element: <Profile />,
-  // },
-  // {
-  //   path: "/User",
-  //   element: <User />,
-  // },
-  // {
-  //   path: "/Settings",
-  //   element: <Settings />,
-  // },
 ]);
 
 function App() {
