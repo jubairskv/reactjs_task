@@ -9,6 +9,7 @@ const Profile = () => {
   const toggleDropdown = () => setIsOpen(!isOpen);
   const location = useLocation();
   const userData = location.state?.userData.menu_array[0];
+  const buttonDrop =location.state?.userData.menu_array;
   console.log(userData);
 
   useEffect(() => {
