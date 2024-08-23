@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation,useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaTimes } from "react-icons/fa";
 
 const Profile = () => {
   const [profileData, setProfileData] = useState(null);
   const [openDropdowns, setOpenDropdowns] = useState([]);
-  const location= useLocation();
-  const {state} =location
-  const userData=state?.userData
+  const location = useLocation();
   const navigate = useNavigate();
+  const userData = location?.state?.userData.menu_array[0];
+  console.log(userData);
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -55,10 +55,10 @@ const Profile = () => {
     );
   };
 
-  const handleNavigation = (action_name) => {
-    const path = action_name.toLowerCase();
-    navigate(`/body/${path}`, { state: { userData} });
+  const handleNavigation = (path, menuInfo) => {
+    navigate(`/body/${path}`, { state: { userData: location.state.userData, menuInfo } });
   };
+  
 
   if (!userData) return null;
 
@@ -67,12 +67,17 @@ const Profile = () => {
       <div className="flex gap-4">
         <h1 className="text-center text-2xl font-bold">Profile Page</h1>
         <div>
-          {userData.actions.map((btn) => (
-            <button  onClick={() => handleNavigation(btn.action_name)}>{btn.action_id === 1}</button>
-          ))}
-          <button className="w-20 h-10 bg-blue-800 rounded-lg text-white">
-            <Link to="/body/addprofile">{userData.actions[0].action_name}</Link>
-          </button>
+          {userData.actions
+            .filter((action) => action.action_id === 1) // Only include "Add" action
+            .map((btn) => (
+              <button
+                key={btn.action_id}
+                className=" bg-blue-800 w-20 h-10 flex items-center p-6 text-nowrap rounded-full text-white"
+                onClick={() => handleNavigation("addprofile")}
+              >
+                {btn.action_name}
+              </button>
+            ))}
         </div>
       </div>
 

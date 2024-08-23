@@ -32,7 +32,7 @@ const LoginPage = () => {
       const data = await response.json();
 
       if (response.ok && data.code === 1) {
-        //console.log("Login successful:", data);
+        console.log("Login successful:", data);
         navigate("/body", { state: { userData: data } }); // Redirect to dashboard or another route after successful login
       } else {
         console.error("Login failed:", data);
