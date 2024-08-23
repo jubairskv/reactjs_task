@@ -114,7 +114,7 @@ const Profile = () => {
                           <BsThreeDotsVertical size={20} />
                         </button>
                         {openDropdowns[index] && (
-                          <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg">
+                          <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
                             <div className="flex justify-end p-2">
                               <button
                                 onClick={() => closeDropdown(index)}
@@ -124,9 +124,19 @@ const Profile = () => {
                               </button>
                             </div>
                             <div className="flex flex-col">
-                              {userData.actions.map((btn, idx) => (
-                                <Link className="p-2" key={idx}>{btn.action_name}</Link>
-                              ))}
+                              {userData.actions
+                                .filter(
+                                  (action) =>
+                                    action.action_name.toLowerCase() !== "add"
+                                )
+                                .map((btn, index) => (
+                                  <Link
+                                    className="p-2 hover:bg-slate-300"
+                                    key={index}
+                                  >
+                                    {btn.action_name}
+                                  </Link>
+                                ))}
                             </div>
                           </div>
                         )}
