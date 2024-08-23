@@ -39,18 +39,6 @@ const appRouter = createBrowserRouter([
       },
     ],
   },
-  // {
-  //   path: "/addprofile",
-  //   element: <AddProfile />,
-  // },
-  // {
-  //   path: "/User",
-  //   element: <User />,
-  // },
-  // {
-  //   path: "/Settings",
-  //   element: <Settings />,
-  // },
 ]);
 
 function App() {
