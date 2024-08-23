@@ -6,6 +6,7 @@ import Profile from "./Components/Profile";
 import User from "./Components/User";
 import Settings from "./Components/Settings";
 import Dashborad from "./Components/Dashborad";
+import AddProfile from "./Components/AddProfile";
 
 const appRouter = createBrowserRouter([
   {
@@ -17,7 +18,7 @@ const appRouter = createBrowserRouter([
     element: <Body />,
     children: [
       {
-        index:"*",
+        index:true,
         element: <Dashborad />, 
       },
       {
@@ -32,8 +33,24 @@ const appRouter = createBrowserRouter([
         path: "settings",
         element: <Settings />,
       },
+      {
+        path: "addprofile",
+        element: <AddProfile />,
+      },
     ],
   },
+  // {
+  //   path: "/addprofile",
+  //   element: <AddProfile />,
+  // },
+  // {
+  //   path: "/User",
+  //   element: <User />,
+  // },
+  // {
+  //   path: "/Settings",
+  //   element: <Settings />,
+  // },
 ]);
 
 function App() {
