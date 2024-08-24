@@ -20,7 +20,7 @@ const AddProfile = () => {
   const MenuItems = userData.menu_array.filter(
     (item) => item.parent_menu_id === 0
   );
-  console.log(MenuItems);
+  //console.log(MenuItems);
 
   const instname =
     userData?.menu_array?.find((menu) => menu.menu_name === "Institution")
@@ -115,28 +115,47 @@ const AddProfile = () => {
           )?.institution_name || "Unknown",
       },
     ]);
-
-    // Clear the form inputs
     setProfileName("");
     setSelectedInstitution("");
   };
 
   const mapMenuItemsToTreeData = (menuItems) => {
-    return menuItems.map((menuItem) => ({
-      id: menuItem.menu_id,
-      label: menuItem.menu_name,
-      checked: menuItem.checked || false, // Set this based on your requirement
-      level: 0, // Assuming these are top-level items
-      children: menuItem.actions.map((action) => ({
-        id: action.action_id,
-        label: action.action_name,
-        checked: action.status === 1, // You can customize this
-        level: 1, // Actions are children
-      })),
-    }));
+    const mapMenuToTree = (menu) => {
+      // Filter children to include items with `parent_menu_id` matching the current menu's `menu_id`
+      const children = menuList.filter(
+        (item) => item.parent_menu_id === menu.menu_id
+      );
+  
+      // Check if the current menu is "Settings"
+      const isSettingsMenu = menu.menu_name === "Settings"; // Adjust this condition as needed
+  
+      return {
+        id: `menu-${menu.menu_id}`,
+        label: menu.menu_name,
+        checked: false,
+        level: 0,
+        children: [
+          // Include actions only if the menu is not "Settings"
+          ...(isSettingsMenu
+            ? [] // Show no actions for "Settings"
+            : menu.actions.map((action) => ({
+                id: `action-${action.action_id}`,
+                label: action.action_name,
+                checked: action.status === 1,
+                level: 1,
+              }))
+          ),
+          // Map child menus recursively
+          ...children.map(mapMenuToTree),
+        ],
+      };
+    };
+  
+    return menuItems.map(mapMenuToTree);
   };
-
+  
   const treeData = mapMenuItemsToTreeData(MenuItems);
+  
 
   const handleTreeChange = (updatedTreeData) => {
     console.log("Updated tree data:", updatedTreeData);
