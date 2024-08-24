@@ -4,11 +4,12 @@ import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Profile from "./Components/Profile";
 import User from "./Components/User";
-import Settings from "./Components/Settings";
+import Institution from "./Components/Institution";
 import Dashborad from "./Components/Dashborad";
 import AddProfile from "./Components/AddProfile";
 import Country from "./Components/Country";
 import Currency from "./Components/Currency";
+import PasswordPolicy from "./Components/PasswordPolicy";
 
 const appRouter = createBrowserRouter([
   {
@@ -46,11 +47,11 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "passowrd policy",
-        element: <Settings />,
+        element: <PasswordPolicy />,
       },
       {
         path: "institution",
-        element: <Settings />,
+        element: <Institution />,
       },
     ],
   },

@@ -18,9 +18,10 @@ const SideBarMenu = ({ data }) => {
   );
 
   const handleNavigation = (menuName) => {
-    const path = menuName.toLowerCase();
+    const path = menuName.replace(/\s+/g, '').toLowerCase();
     navigate(`/body/${path}`, { state: { userData: data } });
   };
+  
 
   const toggleSettingsDropdown = () => {
     setIsSettingsOpen(!isSettingsOpen);
