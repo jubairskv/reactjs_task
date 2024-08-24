@@ -30,7 +30,7 @@ const TreeNode = ({ node, onToggle }) => {
                     type="checkbox"
                     checked={node.checked || false}
                     onChange={handleCheckboxChange}
-                    className="form-checkbox"
+                    className={`form-checkbox h-4 w-4 text-blue-600 rounded border-gray-300 ${node.checked ? 'bg-blue-600' : 'bg-gray-200'}`}
                 />
                 <span>{node.label}</span>
             </div>

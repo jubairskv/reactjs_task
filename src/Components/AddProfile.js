@@ -9,8 +9,7 @@ const AddProfile = () => {
   const [selectedInstitution, setSelectedInstitution] = useState("");
   const [tableData, setTableData] = useState([]);
   const [errors, setErrors] = useState({});
-  const [checkedTreeData, setCheckedTreeData] = useState([]); // State for checked checkboxes
-
+  const [checkedTreeData, setCheckedTreeData] = useState([]); 
   const location = useLocation();
   const { userData } = location?.state;
 
@@ -142,9 +141,11 @@ const AddProfile = () => {
       },
     ]);
   
+    const resetTreeData = mapMenuItemsToTreeData(MenuItems);
+    setCheckedTreeData(resetTreeData);
     setProfileName("");
     setSelectedInstitution("");
-    setCheckedTreeData([]);
+    console.log("Tree data reset:", resetTreeData);
     setErrors({});
   };
   
