@@ -5,10 +5,11 @@ import CheckboxTree from "./Mock";
 const AddProfile = () => {
   const [insData, setInsData] = useState(null);
   const [institutions, setInstitutions] = useState([]);
-  const [profileName, setProfileName] = useState(""); // State for profile name
-  const [selectedInstitution, setSelectedInstitution] = useState(""); // State for selected institution
-  const [tableData, setTableData] = useState([]); // State to store table data
-  const [errors, setErrors] = useState({}); // State to store validation errors
+  const [profileName, setProfileName] = useState("");
+  const [selectedInstitution, setSelectedInstitution] = useState("");
+  const [tableData, setTableData] = useState([]);
+  const [errors, setErrors] = useState({});
+  const [checkedTreeData, setCheckedTreeData] = useState([]); // State for checked checkboxes
 
   const location = useLocation();
   const { userData } = location?.state;
@@ -58,7 +59,7 @@ const AddProfile = () => {
     const fetchProfileData = async () => {
       const token =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVZGlkIjoiMTIzNDU2Nzg5MDEyMzQ1NjciLCJDdXN0b21lcklEIjoiMiIsImV4cCI6MTcyNDUwODk2NSwiaXNzIjoiV0VCX0FETUlOIn0.614SI2ktjTVplzoQgmI4CAIqiX7fvIIfV9zjRWfC2AM";
-      const apiUrl = "https://api-innovitegra.online/webadmin/inst/view_inst"; 
+      const apiUrl = "https://api-innovitegra.online/webadmin/inst/view_inst";
 
       try {
         const response = await fetch(apiUrl, {
@@ -91,6 +92,7 @@ const AddProfile = () => {
 
   const handleInstitutionChange = (e) => {
     setSelectedInstitution(e.target.value);
+    console.log(e.target.value);
   };
 
   const validateFields = () => {
@@ -100,6 +102,9 @@ const AddProfile = () => {
     }
     if (!selectedInstitution) {
       errors.selectedInstitution = "Institution selection is required";
+    }
+    if (checkedTreeData.length === 0) {
+      errors.checkedTreeData = "At least one checkbox must be selected";
     }
     return errors;
   };
@@ -113,20 +118,35 @@ const AddProfile = () => {
       return;
     }
 
-    // Add new entry to the table
+    console.log("Institutions:", institutions);
+    console.log("Selected Institution ID:", selectedInstitution);
+
+    // Ensure selectedInstitution is the same type as institution_id
+    const institutionId = Number(selectedInstitution); // or use String(selectedInstitution) if institution_id is a string
+
+    // Find the institution by id
+    const institution = institutions.find(
+      (inst) => inst.institution_id === institutionId
+    );
+
+    const institutionName = institution
+      ? institution.institution_name
+      : "Unknown";
+
+    console.log("Institution Name:", institutionName);
+
     setTableData((prevTableData) => [
       ...prevTableData,
       {
         profileName,
         institutionId: selectedInstitution,
-        institutionName:
-          institutions.find(
-            (inst) => inst.institution_id === selectedInstitution
-          )?.institution_name || "Unknown",
+        institutionName,
       },
     ]);
+
     setProfileName("");
     setSelectedInstitution("");
+    setCheckedTreeData([]);
     setErrors({});
   };
 
@@ -163,6 +183,22 @@ const AddProfile = () => {
   const treeData = mapMenuItemsToTreeData(MenuItems);
 
   const handleTreeChange = (updatedTreeData) => {
+    // Update the checkedTreeData state based on the updatedTreeData
+    const extractCheckedIds = (tree) => {
+      let checkedIds = [];
+      tree.forEach((node) => {
+        if (node.checked) {
+          checkedIds.push(node.id);
+        }
+        if (node.children) {
+          checkedIds = checkedIds.concat(extractCheckedIds(node.children));
+        }
+      });
+      return checkedIds;
+    };
+
+    const checkedIds = extractCheckedIds(updatedTreeData);
+    setCheckedTreeData(checkedIds);
     console.log("Updated tree data:", updatedTreeData);
   };
 
@@ -208,6 +244,9 @@ const AddProfile = () => {
         </div>
         <div>
           <CheckboxTree data={treeData} onChange={handleTreeChange} />
+          {errors.checkedTreeData && (
+            <p className="text-red-500 text-xs">{errors.checkedTreeData}</p>
+          )}
         </div>
         <button
           type="submit"
@@ -216,7 +255,7 @@ const AddProfile = () => {
           Add to Table
         </button>
       </form>
-      <div className="overflow-x-auto mt-10">
+      <div className="overflow-x-auto mt-10 mr-10">
         <table className="min-w-full divide-y divide-gray-200">
           <thead>
             <tr>
@@ -231,16 +270,17 @@ const AddProfile = () => {
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white divide-y divide-gray-200  ">
+            <div></div>
             {tableData.map((data, index) => (
               <tr key={index}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <td className=" whitespace-nowrap text-sm font-medium text-gray-900">
                   {data.profileName}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className=" whitespace-nowrap text-sm text-gray-500">
                   {data.institutionId}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className=" whitespace-nowrap text-sm text-gray-500">
                   {data.institutionName}
                 </td>
               </tr>
