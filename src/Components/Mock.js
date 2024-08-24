@@ -5,12 +5,12 @@ const TreeNode = ({ node, onToggle }) => {
     const [expanded, setExpanded] = useState(false);
 
     const handleExpandToggle = (e) => {
-        e.stopPropagation(); // Prevent form submission
+        e.stopPropagation(); 
         setExpanded(!expanded);
     };
 
     const handleCheckboxChange = (e) => {
-        e.stopPropagation(); // Prevent form submission
+        e.stopPropagation(); 
         onToggle(node, e.target.checked);
     };
 
@@ -30,7 +30,9 @@ const TreeNode = ({ node, onToggle }) => {
                     type="checkbox"
                     checked={node.checked || false}
                     onChange={handleCheckboxChange}
-                    className={`form-checkbox h-4 w-4 text-blue-600 rounded border-gray-300 ${node.checked ? 'bg-blue-600' : 'bg-gray-200'}`}
+                    className={`form-checkbox h-4 w-4 rounded border-gray-300 ${
+                        node.checked ? 'bg-blue-600 text-blue-600' : 'bg-gray-200'
+                    }`}
                 />
                 <span>{node.label}</span>
             </div>
