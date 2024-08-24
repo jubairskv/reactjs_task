@@ -92,7 +92,7 @@ const AddProfile = () => {
 
   const handleInstitutionChange = (e) => {
     setSelectedInstitution(e.target.value);
-    console.log(e.target.value);
+    console.log(e.target.value)
   };
 
   const validateFields = () => {
@@ -111,30 +111,28 @@ const AddProfile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     const validationErrors = validateFields();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-
+  
     console.log("Institutions:", institutions);
     console.log("Selected Institution ID:", selectedInstitution);
-
+  
     // Ensure selectedInstitution is the same type as institution_id
     const institutionId = Number(selectedInstitution); // or use String(selectedInstitution) if institution_id is a string
-
+  
     // Find the institution by id
     const institution = institutions.find(
       (inst) => inst.institution_id === institutionId
     );
-
-    const institutionName = institution
-      ? institution.institution_name
-      : "Unknown";
-
+  
+    const institutionName = institution ? institution.institution_name : "Unknown";
+  
     console.log("Institution Name:", institutionName);
-
+  
     setTableData((prevTableData) => [
       ...prevTableData,
       {
@@ -143,13 +141,14 @@ const AddProfile = () => {
         institutionName,
       },
     ]);
-
+  
     setProfileName("");
     setSelectedInstitution("");
     setCheckedTreeData([]);
     setErrors({});
   };
-
+  
+  
   const mapMenuItemsToTreeData = (menuItems) => {
     const mapMenuToTree = (menu) => {
       const children = menuList.filter(
@@ -196,7 +195,7 @@ const AddProfile = () => {
       });
       return checkedIds;
     };
-
+    
     const checkedIds = extractCheckedIds(updatedTreeData);
     setCheckedTreeData(checkedIds);
     console.log("Updated tree data:", updatedTreeData);
@@ -271,16 +270,15 @@ const AddProfile = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200  ">
-            <div></div>
             {tableData.map((data, index) => (
               <tr key={index}>
-                <td className=" whitespace-nowrap text-sm font-medium text-gray-900">
+                <td className=" py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                   {data.profileName}
                 </td>
-                <td className=" whitespace-nowrap text-sm text-gray-500">
+                <td className="py-4 whitespace-nowrap text-sm text-gray-500">
                   {data.institutionId}
                 </td>
-                <td className=" whitespace-nowrap text-sm text-gray-500">
+                <td className=" py-4 whitespace-nowrap text-sm text-gray-500">
                   {data.institutionName}
                 </td>
               </tr>
