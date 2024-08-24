@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+// TreeNode component
 const TreeNode = ({ node, onToggle }) => {
     const [expanded, setExpanded] = useState(false);
 
@@ -14,19 +15,24 @@ const TreeNode = ({ node, onToggle }) => {
     };
 
     return (
-        <div style={{ marginLeft: node.level * 20 + 'px' }}>
-            <div>
+        <div className={`ml-${node.level * 5}`}>
+            <div className="flex items-center space-x-2">
                 {node.children && (
-                    <button type="button" onClick={handleExpandToggle}>
-                        {expanded ? '-' : '+'}
+                    <button 
+                        type="button" 
+                        onClick={handleExpandToggle}
+                        className="text-gray-600"
+                    >
+                        {expanded ? '▼' : '►'}
                     </button>
                 )}
                 <input
                     type="checkbox"
                     checked={node.checked || false}
                     onChange={handleCheckboxChange}
+                    className="form-checkbox"
                 />
-                {node.label}
+                <span>{node.label}</span>
             </div>
             {expanded && node.children && (
                 <div>
@@ -43,6 +49,7 @@ const TreeNode = ({ node, onToggle }) => {
     );
 };
 
+// CheckboxTree component
 const CheckboxTree = ({ data, onChange }) => {
     const [treeData, setTreeData] = useState(data);
 
@@ -73,7 +80,7 @@ const CheckboxTree = ({ data, onChange }) => {
     };
 
     return (
-        <div>
+        <div className="space-y-2">
             {treeData.map((node) => (
                 <TreeNode
                     key={node.id}
