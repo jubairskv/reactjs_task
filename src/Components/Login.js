@@ -129,7 +129,7 @@ const LoginPage = () => {
           </form>
         </div>
       </div>
-      <div className="bg-blue-800 border w-screen h-svh ml-96"></div>
+      <div className="bg-blue-800 border w-screen h-svh ml-72"></div>
     </div>
   );
 };
