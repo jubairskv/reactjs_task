@@ -14,6 +14,8 @@ const AddProfile = () => {
   const location = useLocation();
   const { userData } = location?.state;
 
+ 
+
   const menuList = userData.menu_array;
   // console.log(menuList);
   const MenuItems = userData.menu_array.filter(
@@ -96,20 +98,18 @@ const AddProfile = () => {
     console.log(e.target.value);
   };
 
-   //const lableData = checkData.map((item) => console.log(item.label));
+  //const lableData = checkData.map((item) => console.log(item.label));
   //console.log(lableData)
 
-  const selectedCheckboxes = checkData.map((items) => {
-    console.log(items)
-    const item = menuList.filter(
-      (menu) => `menu-${console.log(menu)}` === items.label
-    );
-    return item ? "Checked" : "Unknown";
+  const selectedCheckboxes = checkData.map((item) => {
+    console.log(item);
+    if (item.checked) {
+      return "Checked";
+    } else {
+      return "";
+    }
   });
-  console.log(selectedCheckboxes)
 
-  console.log(checkData);
-  console.log(menuList);
 
   const validateFields = () => {
     const errors = {};
@@ -137,10 +137,8 @@ const AddProfile = () => {
     //console.log("Institutions:", institutions);
     //console.log("Selected Institution ID:", selectedInstitution);
 
-    // Ensure selectedInstitution is the same type as institution_id
-    const institutionId = Number(selectedInstitution); // or use String(selectedInstitution) if institution_id is a string
+    const institutionId = Number(selectedInstitution); 
 
-    // Find the institution by id
     const institution = institutions.find(
       (inst) => inst.institution_id === institutionId
     );
@@ -164,7 +162,6 @@ const AddProfile = () => {
     setCheckedTreeData(resetTreeData);
     setProfileName("");
     setSelectedInstitution("");
-    //console.log("Tree data reset:", resetTreeData);
     setErrors({});
   };
 
@@ -201,7 +198,6 @@ const AddProfile = () => {
   const treeData = mapMenuItemsToTreeData(MenuItems);
 
   const handleTreeChange = (updatedTreeData) => {
-    // Update the checkedTreeData state based on the updatedTreeData
     const extractCheckedIds = (tree) => {
       let checkedIds = [];
       tree.forEach((node) => {
@@ -221,6 +217,7 @@ const AddProfile = () => {
     console.log("Updated tree data:", updatedTreeData);
   };
 
+  console.log(checkData)
   return (
     <div className="flex flex-col gap-1">
       <form onSubmit={handleSubmit} className="flex flex-row gap-20">

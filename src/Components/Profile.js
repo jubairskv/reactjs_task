@@ -16,14 +16,13 @@ const Profile = () => {
       const token =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVZGlkIjoiMTIzNDU2Nzg5MDEyMzQ1NjciLCJDdXN0b21lcklEIjoiMiIsImV4cCI6MTcyNDUwODk2NSwiaXNzIjoiV0VCX0FETUlOIn0.614SI2ktjTVplzoQgmI4CAIqiX7fvIIfV9zjRWfC2AM"; // Replace with your actual Bearer token
       const apiUrl =
-        "https://api-innovitegra.online/webadmin/profiles/list_profiles"; // Replace with your actual API endpoint
-
+        "https://api-innovitegra.online/webadmin/profiles/list_profiles"; 
       try {
         const response = await fetch(apiUrl, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Pass the Bearer token here
+            Authorization: `Bearer ${token}`, 
           },
         });
 
@@ -34,7 +33,7 @@ const Profile = () => {
         const data = await response.json();
         console.log(data);
         setProfileData(data);
-        setOpenDropdowns(new Array(data?.profile_array?.length).fill(false)); // Initialize dropdowns state
+        setOpenDropdowns(new Array(data?.profile_array?.length).fill(false)); 
       } catch (error) {
         console.error("Error fetching profile data:", error);
       }
@@ -68,7 +67,7 @@ const Profile = () => {
         <h1 className="text-center text-2xl font-bold">Profile Page</h1>
         <div>
           {userData.actions
-            .filter((action) => action.action_id === 1) // Only include "Add" action
+            .filter((action) => action.action_id === 1) 
             .map((btn) => (
               <button
                 key={btn.action_id}
@@ -87,7 +86,7 @@ const Profile = () => {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-100">
                 <tr className="flex justify-evenly items-center p-5">
-                  <th className="text-base font-bold text-gray-600 tracking-wider">
+                  <th className="text-base font-bold text-gray-600 tracking-wider ">
                     Profile ID
                   </th>
                   <th className="font-bold text-gray-600 tracking-wider">
