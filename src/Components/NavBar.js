@@ -9,7 +9,7 @@ const NavBar = () => {
     <div className="w-[85rem] h-24 bg-white border flex justify-evenly items-center ">
       <div className="font-bold text-2xl flex flex-1 ml-10">
         <h1>
-          <Link to="/body">Dashboard</Link>
+          <a href="/body">Dashboard</a>
         </h1>
       </div>
       <div className="flex gap-8 mr-10">

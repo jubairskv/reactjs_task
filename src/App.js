@@ -18,7 +18,7 @@ const appRouter = createBrowserRouter([
     element: <Body />,
     children: [
       {
-        index: true,
+        path:"/body",
         element: <Dashborad />,
       },
       {
