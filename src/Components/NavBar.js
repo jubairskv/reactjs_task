@@ -6,7 +6,7 @@ import { IoSearchOutline } from "react-icons/io5";
 
 const NavBar = () => {
   return (
-    <div className="w-[85rem] h-24 bg-white border flex justify-evenly items-center ">
+    <div className="w-[85rem] h-24 bg-slate-100 border border-slate-300 flex justify-evenly items-center ">
       <div className="font-bold text-2xl flex flex-1 ml-10">
         <h1>
           <a href="/body">Dashboard</a>
