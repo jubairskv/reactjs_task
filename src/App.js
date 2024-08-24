@@ -29,13 +29,26 @@ const appRouter = createBrowserRouter([
         path: "user",
         element: <User />,
       },
-      {
-        path: "settings",
-        element: <Settings />,
-      },
+      
       {
         path: "addprofile",
         element: <AddProfile />,
+      },
+      {
+        path: "country",
+        element: <Settings />,
+      },
+      {
+        path: "currency",
+        element: <Settings />,
+      },
+      {
+        path: "passowrd policy",
+        element: <Settings />,
+      },
+      {
+        path: "institution",
+        element: <Settings />,
       },
     ],
   },

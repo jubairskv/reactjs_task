@@ -48,6 +48,7 @@ const SideBarMenu = ({ data }) => {
                 </button>
                 {isSettingsOpen && (
                   <div className="ml-4 mt-2">
+                    {console.log(settingsSubMenuItems)}
                     {settingsSubMenuItems.map((subItem, subIndex) => (
                       <button
                         key={subIndex}
