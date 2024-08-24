@@ -10,12 +10,17 @@ const AddProfile = () => {
   const [tableData, setTableData] = useState([]); // State to store table data
   const location = useLocation();
   const { userData } = location?.state;
-  console.log(userData)
- // const {checkboxData} = location?.state?.menu_array
-//   console.log(checkboxData)
+  console.log(userData);
+  // const {checkboxData} = location?.state?.menu_array
+  //   console.log(checkboxData)
 
-// const MenuItems = userData.filter((item) => item.parent_menu_id === 0);
-// console.log(MenuItems)
+  const menuList = userData.menu_array
+  console.log(menuList)
+
+  const MenuItems = userData.menu_array.filter(
+    (item) => item.parent_menu_id === 0
+  );
+  console.log(MenuItems);
 
   const instname =
     userData?.menu_array?.find((menu) => menu.menu_name === "Institution")
@@ -47,9 +52,8 @@ const AddProfile = () => {
       return;
     }
 
-    const actionId = filteredActions[0].action_id; 
+    const actionId = filteredActions[0].action_id;
 
-    
     const menuData = {
       menu_info: {
         menu_id: institutionMenu.menu_id, // Use the menu_id from institutionMenu
@@ -117,36 +121,22 @@ const AddProfile = () => {
     setSelectedInstitution("");
   };
 
-  const initialData = [
-    {
-      id: 1,
-      label: "Parent 1",
-      checked: false,
-      level: 0,
-      children: [
-        {
-          id: 2,
-          label: "Child 1",
-          checked: false,
-          level: 1,
-          children: [
-            {
-              id: 3,
-              label: "Grandchild 1",
-              checked: false,
-              level: 2,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: 4,
-      label: "Parent 2",
-      checked: false,
-      level: 0,
-    },
-  ];
+  const mapMenuItemsToTreeData = (menuItems) => {
+    return menuItems.map((menuItem) => ({
+      id: menuItem.menu_id,
+      label: menuItem.menu_name,
+      checked: menuItem.checked || false, // Set this based on your requirement
+      level: 0, // Assuming these are top-level items
+      children: menuItem.actions.map((action) => ({
+        id: action.action_id,
+        label: action.action_name,
+        checked: action.status === 1, // You can customize this
+        level: 1, // Actions are children
+      })),
+    }));
+  };
+
+  const treeData = mapMenuItemsToTreeData(MenuItems);
 
   const handleTreeChange = (updatedTreeData) => {
     console.log("Updated tree data:", updatedTreeData);
@@ -182,7 +172,7 @@ const AddProfile = () => {
           </select>
         </div>
         <div>
-          <CheckboxTree data={initialData} onChange={handleTreeChange} />
+          <CheckboxTree data={treeData} onChange={handleTreeChange} />
         </div>
         <button
           type="submit"
@@ -191,7 +181,7 @@ const AddProfile = () => {
           Add to Table
         </button>
       </form>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto mt-10">
         <table className="min-w-full divide-y divide-gray-200">
           <thead>
             <tr>
