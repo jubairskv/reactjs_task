@@ -2,7 +2,7 @@ import React from 'react'
 
 const Dashborad = () => {
   return (
-    <div>Dashborad</div>
+    <div className='text-lg font-bold'>Dashborad</div>
   )
 }
 
