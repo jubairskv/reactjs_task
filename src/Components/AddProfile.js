@@ -9,11 +9,13 @@ const AddProfile = () => {
   const [selectedInstitution, setSelectedInstitution] = useState("");
   const [tableData, setTableData] = useState([]);
   const [errors, setErrors] = useState({});
-  const [checkedTreeData, setCheckedTreeData] = useState([]); 
+  const [checkedTreeData, setCheckedTreeData] = useState([]);
+  const [checkData, setCheckData] = useState([]);
   const location = useLocation();
   const { userData } = location?.state;
 
   const menuList = userData.menu_array;
+  // console.log(menuList);
   const MenuItems = userData.menu_array.filter(
     (item) => item.parent_menu_id === 0
   );
@@ -91,8 +93,23 @@ const AddProfile = () => {
 
   const handleInstitutionChange = (e) => {
     setSelectedInstitution(e.target.value);
-    console.log(e.target.value)
+    console.log(e.target.value);
   };
+
+ // const lableData = checkData.map((item) => console.log(item.label));
+  //console.log(lableData)
+
+  const selectedCheckboxes = checkData.map((items) => {
+    console.log(items)
+    const item = menuList.filter(
+      (menu) => `menu-${console.log(menu)}` === items.label
+    );
+    return item ? "Checked" : "Unknown";
+  });
+  console.log(selectedCheckboxes)
+
+  console.log(checkData);
+  console.log(menuList);
 
   const validateFields = () => {
     const errors = {};
@@ -110,28 +127,30 @@ const AddProfile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
     const validationErrors = validateFields();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-  
-    console.log("Institutions:", institutions);
-    console.log("Selected Institution ID:", selectedInstitution);
-  
+
+    //console.log("Institutions:", institutions);
+    //console.log("Selected Institution ID:", selectedInstitution);
+
     // Ensure selectedInstitution is the same type as institution_id
     const institutionId = Number(selectedInstitution); // or use String(selectedInstitution) if institution_id is a string
-  
+
     // Find the institution by id
     const institution = institutions.find(
       (inst) => inst.institution_id === institutionId
     );
-  
-    const institutionName = institution ? institution.institution_name : "Unknown";
-  
+
+    const institutionName = institution
+      ? institution.institution_name
+      : "Unknown";
+
     console.log("Institution Name:", institutionName);
-  
+
     setTableData((prevTableData) => [
       ...prevTableData,
       {
@@ -140,16 +159,15 @@ const AddProfile = () => {
         institutionName,
       },
     ]);
-  
+
     const resetTreeData = mapMenuItemsToTreeData(MenuItems);
     setCheckedTreeData(resetTreeData);
     setProfileName("");
     setSelectedInstitution("");
-    console.log("Tree data reset:", resetTreeData);
+    //console.log("Tree data reset:", resetTreeData);
     setErrors({});
   };
-  
-  
+
   const mapMenuItemsToTreeData = (menuItems) => {
     const mapMenuToTree = (menu) => {
       const children = menuList.filter(
@@ -196,9 +214,10 @@ const AddProfile = () => {
       });
       return checkedIds;
     };
-    
+
     const checkedIds = extractCheckedIds(updatedTreeData);
     setCheckedTreeData(checkedIds);
+    setCheckData(updatedTreeData);
     console.log("Updated tree data:", updatedTreeData);
   };
 
@@ -209,7 +228,7 @@ const AddProfile = () => {
           <label>Profile Name</label>
           <input
             type="text"
-            className={`border w-60 h-10 rounded-lg ${
+            className={`border pl-4 w-60 h-10 rounded-lg ${
               errors.profileName ? "border-red-500" : ""
             }`}
             value={profileName}
@@ -222,7 +241,7 @@ const AddProfile = () => {
         <div className="flex flex-col items-start gap-2">
           <label>{instname}</label>
           <select
-            className={`border w-60 h-10 rounded-lg ${
+            className={`border w-60 pl-4 h-10 rounded-lg ${
               errors.selectedInstitution ? "border-red-500" : ""
             }`}
             value={selectedInstitution}
@@ -268,6 +287,9 @@ const AddProfile = () => {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Institution Name
               </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Selected Checkboxes
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200  ">
@@ -281,6 +303,9 @@ const AddProfile = () => {
                 </td>
                 <td className=" py-4 whitespace-nowrap text-sm text-gray-500">
                   {data.institutionName}
+                </td>
+                <td className="py-4 whitespace-nowrap text-sm text-gray-500">
+                  {selectedCheckboxes}
                 </td>
               </tr>
             ))}

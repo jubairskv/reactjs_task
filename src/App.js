@@ -46,7 +46,7 @@ const appRouter = createBrowserRouter([
         element: <Currency />,
       },
       {
-        path: "passowrd policy",
+        path: "passwordpolicy",
         element: <PasswordPolicy />,
       },
       {
