@@ -46,8 +46,8 @@ const LoginPage = () => {
     <div className="flex flex-row">
       <div className="pl-40 pt-32">
         <div className="flex flex-col items-start">
-          <h1 className="font-bold text-4xl">Create Account !</h1>
-          <p className="pt-2 text-gray-500">Let's get your account set up</p>
+          <h1 className="font-bold text-4xl text-nowrap">Login to your  Account !</h1>
+          <p className="pt-2 text-gray-500 ">Let's get's access the website</p>
         </div>
         <div className="pt-8">
           <form onSubmit={loginUser}>
