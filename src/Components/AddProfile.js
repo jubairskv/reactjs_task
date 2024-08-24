@@ -8,19 +8,15 @@ const AddProfile = () => {
   const [profileName, setProfileName] = useState(""); // State for profile name
   const [selectedInstitution, setSelectedInstitution] = useState(""); // State for selected institution
   const [tableData, setTableData] = useState([]); // State to store table data
+  const [errors, setErrors] = useState({}); // State to store validation errors
+
   const location = useLocation();
   const { userData } = location?.state;
-  console.log(userData);
-  // const {checkboxData} = location?.state?.menu_array
-  //   console.log(checkboxData)
 
-  const menuList = userData.menu_array
-  console.log(menuList)
-
+  const menuList = userData.menu_array;
   const MenuItems = userData.menu_array.filter(
     (item) => item.parent_menu_id === 0
   );
-  //console.log(MenuItems);
 
   const instname =
     userData?.menu_array?.find((menu) => menu.menu_name === "Institution")
@@ -32,7 +28,6 @@ const AddProfile = () => {
       return;
     }
 
-    // Find the "Institution" menu
     const institutionMenu = userData.menu_array.find(
       (menu) => menu.menu_name === "Institution"
     );
@@ -42,7 +37,6 @@ const AddProfile = () => {
       return;
     }
 
-    // Filter actions to include only action_id === 2
     const filteredActions = institutionMenu.actions.filter(
       (action) => action.action_id === 2
     );
@@ -56,24 +50,24 @@ const AddProfile = () => {
 
     const menuData = {
       menu_info: {
-        menu_id: institutionMenu.menu_id, // Use the menu_id from institutionMenu
-        action_id: actionId, // Use the action_id from filteredActions
+        menu_id: institutionMenu.menu_id,
+        action_id: actionId,
       },
     };
 
     const fetchProfileData = async () => {
       const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVZGlkIjoiMTIzNDU2Nzg5MDEyMzQ1NjciLCJDdXN0b21lcklEIjoiMiIsImV4cCI6MTcyNDUwODk2NSwiaXNzIjoiV0VCX0FETUlOIn0.614SI2ktjTVplzoQgmI4CAIqiX7fvIIfV9zjRWfC2AM"; // Replace with your actual Bearer token
-      const apiUrl = "https://api-innovitegra.online/webadmin/inst/view_inst"; // Replace with your actual API endpoint
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVZGlkIjoiMTIzNDU2Nzg5MDEyMzQ1NjciLCJDdXN0b21lcklEIjoiMiIsImV4cCI6MTcyNDUwODk2NSwiaXNzIjoiV0VCX0FETUlOIn0.614SI2ktjTVplzoQgmI4CAIqiX7fvIIfV9zjRWfC2AM";
+      const apiUrl = "https://api-innovitegra.online/webadmin/inst/view_inst"; 
 
       try {
         const response = await fetch(apiUrl, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Pass the Bearer token here
+            Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(menuData), // Use the updated menuData structure
+          body: JSON.stringify(menuData),
         });
 
         if (!response.ok) {
@@ -81,9 +75,8 @@ const AddProfile = () => {
         }
 
         const data = await response.json();
-        console.log(data);
         setInsData(data);
-        setInstitutions(data.menu_array); // Store institution data
+        setInstitutions(data.menu_array);
       } catch (error) {
         console.error("Error fetching profile data:", error);
       }
@@ -100,8 +93,25 @@ const AddProfile = () => {
     setSelectedInstitution(e.target.value);
   };
 
+  const validateFields = () => {
+    const errors = {};
+    if (!profileName.trim()) {
+      errors.profileName = "Profile Name is required";
+    }
+    if (!selectedInstitution) {
+      errors.selectedInstitution = "Institution selection is required";
+    }
+    return errors;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const validationErrors = validateFields();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
 
     // Add new entry to the table
     setTableData((prevTableData) => [
@@ -117,49 +127,45 @@ const AddProfile = () => {
     ]);
     setProfileName("");
     setSelectedInstitution("");
+    setErrors({});
   };
 
   const mapMenuItemsToTreeData = (menuItems) => {
     const mapMenuToTree = (menu) => {
-      // Filter children to include items with `parent_menu_id` matching the current menu's `menu_id`
       const children = menuList.filter(
         (item) => item.parent_menu_id === menu.menu_id
       );
-  
-      // Check if the current menu is "Settings"
-      const isSettingsMenu = menu.menu_name === "Settings"; // Adjust this condition as needed
-  
+
+      const isSettingsMenu = menu.menu_name === "Settings";
+
       return {
         id: `menu-${menu.menu_id}`,
         label: menu.menu_name,
         checked: false,
         level: 0,
         children: [
-          // Include actions only if the menu is not "Settings"
           ...(isSettingsMenu
-            ? [] // Show no actions for "Settings"
+            ? []
             : menu.actions.map((action) => ({
                 id: `action-${action.action_id}`,
                 label: action.action_name,
                 checked: action.status === 1,
                 level: 1,
-              }))
-          ),
-          // Map child menus recursively
+              }))),
           ...children.map(mapMenuToTree),
         ],
       };
     };
-  
+
     return menuItems.map(mapMenuToTree);
   };
-  
+
   const treeData = mapMenuItemsToTreeData(MenuItems);
-  
 
   const handleTreeChange = (updatedTreeData) => {
     console.log("Updated tree data:", updatedTreeData);
   };
+
   return (
     <div className="flex flex-col gap-1">
       <form onSubmit={handleSubmit} className="flex flex-row gap-20">
@@ -167,15 +173,22 @@ const AddProfile = () => {
           <label>Profile Name</label>
           <input
             type="text"
-            className="border w-60 h-10 rounded-lg"
+            className={`border w-60 h-10 rounded-lg ${
+              errors.profileName ? "border-red-500" : ""
+            }`}
             value={profileName}
             onChange={handleProfileNameChange}
           />
+          {errors.profileName && (
+            <p className="text-red-500 text-xs">{errors.profileName}</p>
+          )}
         </div>
         <div className="flex flex-col items-start gap-2">
           <label>{instname}</label>
           <select
-            className="border w-60 h-10 rounded-lg"
+            className={`border w-60 h-10 rounded-lg ${
+              errors.selectedInstitution ? "border-red-500" : ""
+            }`}
             value={selectedInstitution}
             onChange={handleInstitutionChange}
           >
@@ -189,6 +202,9 @@ const AddProfile = () => {
               </option>
             ))}
           </select>
+          {errors.selectedInstitution && (
+            <p className="text-red-500 text-xs">{errors.selectedInstitution}</p>
+          )}
         </div>
         <div>
           <CheckboxTree data={treeData} onChange={handleTreeChange} />
