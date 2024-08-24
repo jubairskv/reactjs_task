@@ -7,6 +7,8 @@ import User from "./Components/User";
 import Settings from "./Components/Settings";
 import Dashborad from "./Components/Dashborad";
 import AddProfile from "./Components/AddProfile";
+import Country from "./Components/Country";
+import Currency from "./Components/Currency";
 
 const appRouter = createBrowserRouter([
   {
@@ -36,11 +38,11 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "country",
-        element: <Settings />,
+        element: <Country />,
       },
       {
         path: "currency",
-        element: <Settings />,
+        element: <Currency />,
       },
       {
         path: "passowrd policy",
