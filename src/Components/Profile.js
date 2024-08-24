@@ -71,7 +71,7 @@ const Profile = () => {
             .map((btn) => (
               <button
                 key={btn.action_id}
-                className=" bg-blue-800 w-20 h-10 flex items-center p-6 text-nowrap rounded-full text-white"
+                className=" bg-blue-800 w-20 h-10 flex items-center p-6 text-nowrap rounded-lg text-white"
                 onClick={() => handleNavigation("addprofile")}
               >
                 {btn.action_name}
