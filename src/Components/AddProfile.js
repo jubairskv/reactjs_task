@@ -96,7 +96,7 @@ const AddProfile = () => {
     console.log(e.target.value);
   };
 
- // const lableData = checkData.map((item) => console.log(item.label));
+   //const lableData = checkData.map((item) => console.log(item.label));
   //console.log(lableData)
 
   const selectedCheckboxes = checkData.map((items) => {
