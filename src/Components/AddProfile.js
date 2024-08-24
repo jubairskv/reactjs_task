@@ -184,7 +184,7 @@ const AddProfile = () => {
             : menu.actions.map((action) => ({
                 id: `action-${action.action_id}`,
                 label: action.action_name,
-                checked: action.status === 1,
+                checked: false,
                 level: 1,
               }))),
           ...children.map(mapMenuToTree),
