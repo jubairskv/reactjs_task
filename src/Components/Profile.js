@@ -16,13 +16,13 @@ const Profile = () => {
       const token =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVZGlkIjoiMTIzNDU2Nzg5MDEyMzQ1NjciLCJDdXN0b21lcklEIjoiMiIsImV4cCI6MTcyNDY5MTM5NCwiaXNzIjoiV0VCX0FETUlOIn0.YhVcX-w30O5Ud-MimSaStxpl0G0twfeSwKJaaqFC12o"; // Replace with your actual Bearer token
       const apiUrl =
-        "https://api-innovitegra.online/webadmin/profiles/list_profiles"; 
+        "https://api-innovitegra.online/webadmin/profiles/list_profiles";
       try {
         const response = await fetch(apiUrl, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, 
+            Authorization: `Bearer ${token}`,
           },
         });
 
@@ -33,7 +33,7 @@ const Profile = () => {
         const data = await response.json();
         console.log(data);
         setProfileData(data);
-        setOpenDropdowns(new Array(data?.profile_array?.length).fill(false)); 
+        setOpenDropdowns(new Array(data?.profile_array?.length).fill(false));
       } catch (error) {
         console.error("Error fetching profile data:", error);
       }
@@ -55,9 +55,10 @@ const Profile = () => {
   };
 
   const handleNavigation = (path, menuInfo) => {
-    navigate(`/body/${path}`, { state: { userData: location.state.userData, menuInfo } });
+    navigate(`/body/${path}`, {
+      state: { userData: location.state.userData, menuInfo },
+    });
   };
-  
 
   if (!userData) return null;
 
@@ -67,7 +68,7 @@ const Profile = () => {
         <h1 className="text-center text-2xl font-bold">Profile Page</h1>
         <div>
           {userData.actions
-            .filter((action) => action.action_id === 1) 
+            .filter((action) => action.action_id === 1)
             .map((btn) => (
               <button
                 key={btn.action_id}
@@ -80,87 +81,83 @@ const Profile = () => {
         </div>
       </div>
 
-      <div className="flex mt-8">
-        <div className="w-full max-w-8xl bg-white shadow-md">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-100">
-                <tr className="flex justify-evenly items-center p-5">
-                  <th className="text-base font-bold text-gray-600 tracking-wider ">
-                    Profile ID
-                  </th>
-                  <th className="font-bold text-gray-600 tracking-wider">
-                    Name
-                  </th>
-                  <th className="text-base font-bold text-gray-600 tracking-wider">
-                    Auth Status
-                  </th>
-                  <th className="text-base font-bold text-gray-600 tracking-wider">
-                    Created Time
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {profileData?.profile_array?.map((profile, index) => (
-                  <tr
-                    key={profile.profile_id}
-                    className="flex justify-evenly items-center p-5"
-                  >
-                    <td className="whitespace-nowrap text-sm font-medium text-gray-900">
-                      {profile.profile_id}
-                    </td>
-                    <td className="whitespace-nowrap text-sm text-gray-500">
-                      {profile.profile_name}
-                    </td>
-                    <td className="whitespace-nowrap text-sm text-gray-500">
-                      {profile.auth_status}
-                    </td>
-                    <td className="whitespace-nowrap text-sm text-gray-500">
-                      {new Date(profile.created_time).toLocaleString()}
-                    </td>
-                    <td className="whitespace-nowrap text-sm text-gray-500">
-                      <div className="relative inline-block text-left">
-                        <button
-                          onClick={() => toggleDropdown(index)}
-                          className="p-2 rounded-full hover:bg-gray-200 focus:outline-none"
-                        >
-                          <BsThreeDotsVertical size={20} />
-                        </button>
-                        {openDropdowns[index] && (
-                          <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                            <div className="flex justify-end p-2">
-                              <button
-                                onClick={() => closeDropdown(index)}
-                                className=""
+      <div className=" mt-8">
+        <table className="w-full border divide-y divide-gray-200">
+          <thead className="">
+            <tr className="">
+              <th className="text-base font-bold border text-gray-600 tracking-wider ">
+                Profile ID
+              </th>
+              <th className="font-bold text-gray-600 tracking-wider border">
+                Name
+              </th>
+              <th className="text-base font-bold text-gray-600 tracking-wider border">
+                Auth Status
+              </th>
+              <th className="text-base font-bold text-gray-600 tracking-wider border">
+                Created Time
+              </th>
+              <th className="text-base font-bold text-gray-600 tracking-wider border">
+                Edit Menu
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {profileData?.profile_array?.map((profile, index) => (
+              <tr key={profile.profile_id} className="">
+                <td className="whitespace-nowrap border text-sm font-medium text-gray-900">
+                  {profile.profile_id}
+                </td>
+                <td className="whitespace-nowrap border text-sm text-gray-500">
+                  {profile.profile_name}
+                </td>
+                <td className="whitespace-nowrap border text-sm text-gray-500">
+                  {profile.auth_status}
+                </td>
+                <td className="whitespace-nowrap text-sm border text-gray-500">
+                  {new Date(profile.created_time).toLocaleString()}
+                </td>
+                <td className="whitespace-nowrap text-sm border text-gray-500">
+                  <div className="relative inline-block text-left">
+                    <button
+                      onClick={() => toggleDropdown(index)}
+                      className="p-2 rounded-full hover:bg-gray-200 focus:outline-none"
+                    >
+                      <BsThreeDotsVertical size={20} />
+                    </button>
+                    {openDropdowns[index] && (
+                      <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                        <div className="flex justify-end p-2">
+                          <button
+                            onClick={() => closeDropdown(index)}
+                            className=""
+                          >
+                            <FaTimes size={18} />
+                          </button>
+                        </div>
+                        <div className="flex flex-col">
+                          {userData.actions
+                            .filter(
+                              (action) =>
+                                action.action_name.toLowerCase() !== "add"
+                            )
+                            .map((btn, index) => (
+                              <Link
+                                className="p-2 hover:bg-slate-300"
+                                key={index}
                               >
-                                <FaTimes size={18} />
-                              </button>
-                            </div>
-                            <div className="flex flex-col">
-                              {userData.actions
-                                .filter(
-                                  (action) =>
-                                    action.action_name.toLowerCase() !== "add"
-                                )
-                                .map((btn, index) => (
-                                  <Link
-                                    className="p-2 hover:bg-slate-300"
-                                    key={index}
-                                  >
-                                    {btn.action_name}
-                                  </Link>
-                                ))}
-                            </div>
-                          </div>
-                        )}
+                                {btn.action_name}
+                              </Link>
+                            ))}
+                        </div>
                       </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
