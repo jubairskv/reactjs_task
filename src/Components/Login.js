@@ -5,7 +5,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [userName, setuserName] = useState("");
   const [password, setPassword] = useState("");
-  const [userType] = useState("CORPORATE"); // Default to CORPORATE
+  const [userType] = useState("CORPORATE"); 
 
   const API_URL = "https://api-innovitegra.online/webadmin/user/user_login";
 

@@ -14,10 +14,8 @@ const AddProfile = () => {
   const location = useLocation();
   const { userData } = location?.state;
 
- 
-
   const menuList = userData.menu_array;
-  // console.log(menuList);
+
   const MenuItems = userData.menu_array.filter(
     (item) => item.parent_menu_id === 0
   );
@@ -61,7 +59,7 @@ const AddProfile = () => {
 
     const fetchProfileData = async () => {
       const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVZGlkIjoiMTIzNDU2Nzg5MDEyMzQ1NjciLCJDdXN0b21lcklEIjoiMiIsImV4cCI6MTcyNDUwODk2NSwiaXNzIjoiV0VCX0FETUlOIn0.614SI2ktjTVplzoQgmI4CAIqiX7fvIIfV9zjRWfC2AM";
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVZGlkIjoiMTIzNDU2Nzg5MDEyMzQ1NjciLCJDdXN0b21lcklEIjoiMiIsImV4cCI6MTcyNDY5MTM5NCwiaXNzIjoiV0VCX0FETUlOIn0.YhVcX-w30O5Ud-MimSaStxpl0G0twfeSwKJaaqFC12o";
       const apiUrl = "https://api-innovitegra.online/webadmin/inst/view_inst";
 
       try {
@@ -98,9 +96,6 @@ const AddProfile = () => {
     console.log(e.target.value);
   };
 
-  //const lableData = checkData.map((item) => console.log(item.label));
-  //console.log(lableData)
-
   const selectedCheckboxes = checkData.map((item) => {
     console.log(item);
     if (item.checked) {
@@ -109,7 +104,6 @@ const AddProfile = () => {
       return "";
     }
   });
-
 
   const validateFields = () => {
     const errors = {};
@@ -134,20 +128,20 @@ const AddProfile = () => {
       return;
     }
 
-    //console.log("Institutions:", institutions);
-    //console.log("Selected Institution ID:", selectedInstitution);
-
-    const institutionId = Number(selectedInstitution); 
-
+    const institutionId = Number(selectedInstitution);
     const institution = institutions.find(
       (inst) => inst.institution_id === institutionId
     );
-
     const institutionName = institution
       ? institution.institution_name
       : "Unknown";
 
-    console.log("Institution Name:", institutionName);
+    const selectedActions = checkedTreeData
+      .filter((item) => item.actionId) 
+      .map((item) => ({
+        actionId: item.actionId,
+        actionName: item.actionName,
+      }));
 
     setTableData((prevTableData) => [
       ...prevTableData,
@@ -155,6 +149,7 @@ const AddProfile = () => {
         profileName,
         institutionId: selectedInstitution,
         institutionName,
+        selectedActions,
       },
     ]);
 
@@ -185,6 +180,7 @@ const AddProfile = () => {
                 id: `action-${action.action_id}`,
                 label: action.action_name,
                 checked: false,
+                parentId: `menu-${menu.menu_id}`, 
                 level: 1,
               }))),
           ...children.map(mapMenuToTree),
@@ -198,26 +194,43 @@ const AddProfile = () => {
   const treeData = mapMenuItemsToTreeData(MenuItems);
 
   const handleTreeChange = (updatedTreeData) => {
-    const extractCheckedIds = (tree) => {
-      let checkedIds = [];
+    const extractCheckedData = (tree) => {
+      let checkedItems = [];
       tree.forEach((node) => {
         if (node.checked) {
-          checkedIds.push(node.id);
+          if (node.id.startsWith("action-")) {
+            checkedItems.push({
+              menuId: node.parentId, 
+              actionId: node.id,
+              actionName: node.label,
+            });
+          } else {
+            checkedItems.push({
+              menuId: node.id,
+              menuName: node.label,
+              actionId: null,
+              actionName: null,
+            });
+          }
         }
         if (node.children) {
-          checkedIds = checkedIds.concat(extractCheckedIds(node.children));
+          checkedItems = checkedItems.concat(extractCheckedData(node.children));
         }
       });
-      return checkedIds;
+      return checkedItems;
     };
 
-    const checkedIds = extractCheckedIds(updatedTreeData);
-    setCheckedTreeData(checkedIds);
+    const checkedData = extractCheckedData(updatedTreeData);
+    setCheckedTreeData(checkedData);
     setCheckData(updatedTreeData);
-    console.log("Updated tree data:", updatedTreeData);
+    console.log("Updated checked data:", checkedData);
   };
 
-  console.log(checkData)
+  const handleActionClick = (actionName, profileName) => {
+    console.log("Button Clicked");
+    console.log("Action:",actionName , "Profile:",profileName);
+  };
+
   return (
     <div className="flex flex-col gap-1">
       <form onSubmit={handleSubmit} className="flex flex-row gap-20">
@@ -264,51 +277,57 @@ const AddProfile = () => {
             <p className="text-red-500 text-xs">{errors.checkedTreeData}</p>
           )}
         </div>
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded w-40 h-10 mt-7"
-        >
-          Add to Table
-        </button>
+        <div className="flex">
+          <button
+            type="submit"
+            className="bg-blue-500 text-white py-2 px-4 rounded-lg fixed"
+          >
+            Submit
+          </button>
+        </div>
       </form>
-      <div className="overflow-x-auto mt-10 mr-10">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead>
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Profile Name
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Institution ID
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Institution Name
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Selected Checkboxes
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200  ">
-            {tableData.map((data, index) => (
-              <tr key={index}>
-                <td className=" py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {data.profileName}
-                </td>
-                <td className="py-4 whitespace-nowrap text-sm text-gray-500">
-                  {data.institutionId}
-                </td>
-                <td className=" py-4 whitespace-nowrap text-sm text-gray-500">
-                  {data.institutionName}
-                </td>
-                <td className="py-4 whitespace-nowrap text-sm text-gray-500">
-                  {selectedCheckboxes}
-                </td>
+      {tableData.length > 0 && (
+        <div className="mt-8">
+          <h3 className="text-lg font-semibold">Table Data</h3>
+          <table className="min-w-full bg-white border border-gray-200 mt-4">
+            <thead>
+              <tr>
+                <th className="border px-4 py-2">Profile Name</th>
+                <th className="border px-4 py-2">Institution ID</th>
+                <th className="border px-4 py-2">Institution Name</th>
+                <th className="border px-4 py-2">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {tableData.map((item, index) => (
+                <tr key={index}>
+                  <td className="border px-4 py-2">{item.profileName}</td>
+                  <td className="border px-4 py-2">{item.institutionId}</td>
+                  <td className="border px-4 py-2">{item.institutionName}</td>
+                  <td className="border px-4 py-2">
+                    <div className="flex gap-2">
+                      {item.selectedActions.map((action, actionIndex) => (
+                        <button
+                          key={actionIndex}
+                          className="bg-green-500 text-white py-1 px-2 rounded-lg"
+                          onClick={() =>
+                            handleActionClick(
+                              action.actionName,
+                              item.profileName
+                            )
+                          }
+                        >
+                          {action.actionName}
+                        </button>
+                      ))}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };
