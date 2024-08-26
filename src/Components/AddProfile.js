@@ -96,7 +96,7 @@ const AddProfile = () => {
     console.log(e.target.value);
   };
 
-  console.log(selectedInstitution)
+  console.log(selectedInstitution);
 
   const selectedCheckboxes = checkData.map((item) => {
     console.log(item);
@@ -155,12 +155,16 @@ const AddProfile = () => {
       },
     ]);
 
+    //handleAdd(profileName, selectedInstitution);
+
     const resetTreeData = mapMenuItemsToTreeData(MenuItems);
     setCheckedTreeData(resetTreeData);
     setProfileName("");
+    console.log(selectedInstitution);
     setSelectedInstitution("");
     setErrors({});
   };
+  console.log(selectedInstitution);
 
   const mapMenuItemsToTreeData = (menuItems) => {
     const mapMenuToTree = (menu) => {
@@ -228,10 +232,10 @@ const AddProfile = () => {
     console.log("Updated checked data:", checkedData);
   };
 
-  const handleActionClick = (actionName, profileName) => {
+  const handleActionClick = (actionName, profileName, selectedInstitution,checkedTreeData) => {
     switch (actionName.toLowerCase()) {
       case "add":
-        handleAdd(profileName);
+        handleAdd(profileName, selectedInstitution,checkedTreeData);
         break;
       case "edit":
         handleEdit(profileName);
@@ -253,22 +257,23 @@ const AddProfile = () => {
     }
   };
 
-  const handleAdd = async (profileName) => {
-    console.log(`Adding new data for profile: ${profileName}`);
+  console.log(selectedInstitution);
 
+  const handleAdd = async (profileName, selectedInstitution,checkedTreeData) => {
+    console.log(`Adding new data for profile: ${profileName}`);
+  
     // Check if selectedInstitution is defined
     if (!selectedInstitution) {
-
       console.error("Institution ID is not defined");
       return;
     }
-
+  
     // Ensure checkedTreeData is not empty
     if (!checkedTreeData || checkedTreeData.length === 0) {
       console.error("Checked tree data is empty or undefined");
       return;
     }
-
+  
     // Prepare the data to be sent in the request body
     const addProfileBody = {
       profile_info: {
@@ -277,25 +282,12 @@ const AddProfile = () => {
       },
       menu_info: checkedTreeData
         .map((item) => {
-          // Safeguard for menuId
-          const menuId = item.menuId
-            ? parseInt(item.menuId.replace("menu-", ""))
-            : null;
-
-          // Filter actions and ensure actionId exists
+          const menuId = item.menuId ? parseInt(item.menuId.replace("menu-", "")) : null;
           const actions = checkedTreeData
-            .filter(
-              (actionItem) =>
-                actionItem.menuId === item.menuId && actionItem.actionId
-            )
-            .map((actionItem) => {
-              // Safeguard for actionId
-              return actionItem.actionId
-                ? parseInt(actionItem.actionId.replace("action-", ""))
-                : null;
-            })
+            .filter((actionItem) => actionItem.menuId === item.menuId && actionItem.actionId)
+            .map((actionItem) => parseInt(actionItem.actionId.replace("action-", "")))
             .filter((action) => action !== null); // Remove nulls
-
+  
           return {
             menu_id: menuId,
             actions: actions,
@@ -304,16 +296,16 @@ const AddProfile = () => {
         })
         .filter((menu) => menu.menu_id !== null), // Remove any menus with null menu_id
     };
-
+  
     // Debugging: Log the assembled payload to inspect its structure
     console.log("Assembled Payload:", addProfileBody);
-
+  
     try {
       const token =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVZGlkIjoiMTIzNDU2Nzg5MDEyMzQ1NjciLCJDdXN0b21lcklEIjoiMiIsImV4cCI6MTcyNDc4MjAzNywiaXNzIjoiV0VCX0FETUlOIn0.aaykp3anmLbvEddbuoezhMGisk80fFFoygJ4i7wiOBk"; // Replace with the actual token
       const apiUrl =
         "https://api-innovitegra.online/webadmin/profiles/add_profile";
-
+  
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
@@ -322,11 +314,11 @@ const AddProfile = () => {
         },
         body: JSON.stringify(addProfileBody),
       });
-
+  
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-
+  
       const responseData = await response.json();
       console.log("Profile added successfully:", responseData);
       // Handle success, e.g., show a success message, update state, etc.
@@ -335,7 +327,7 @@ const AddProfile = () => {
       // Handle error, e.g., show an error message
     }
   };
-
+  
   const handleEdit = (profileName) => {
     // Logic to edit existing data
     console.log(`Editing data for profile: ${profileName}`);
@@ -449,16 +441,20 @@ const AddProfile = () => {
                   <td className="border px-4 py-2">
                     <div className="flex gap-2">
                       {item.selectedActions.map((action, actionIndex) => (
+                      
                         <button
                           key={actionIndex}
                           className="bg-green-500 text-white py-1 px-2 rounded-lg"
                           onClick={() =>
+                            
                             handleActionClick(
                               action.actionName,
-                              item.profileName
+                              item.profileName,
+                              item.institutionId,
                             )
                           }
                         >
+                          
                           {action.actionName}
                         </button>
                       ))}
