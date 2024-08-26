@@ -59,7 +59,7 @@ const AddProfile = () => {
 
     const fetchProfileData = async () => {
       const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVZGlkIjoiMTIzNDU2Nzg5MDEyMzQ1NjciLCJDdXN0b21lcklEIjoiMiIsImV4cCI6MTcyNDY5MTM5NCwiaXNzIjoiV0VCX0FETUlOIn0.YhVcX-w30O5Ud-MimSaStxpl0G0twfeSwKJaaqFC12o";
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVZGlkIjoiMTIzNDU2Nzg5MDEyMzQ1NjciLCJDdXN0b21lcklEIjoiMiIsImV4cCI6MTcyNDc4MjAzNywiaXNzIjoiV0VCX0FETUlOIn0.aaykp3anmLbvEddbuoezhMGisk80fFFoygJ4i7wiOBk";
       const apiUrl = "https://api-innovitegra.online/webadmin/inst/view_inst";
 
       try {
@@ -95,6 +95,8 @@ const AddProfile = () => {
     setSelectedInstitution(e.target.value);
     console.log(e.target.value);
   };
+
+  console.log(selectedInstitution)
 
   const selectedCheckboxes = checkData.map((item) => {
     console.log(item);
@@ -137,7 +139,7 @@ const AddProfile = () => {
       : "Unknown";
 
     const selectedActions = checkedTreeData
-      .filter((item) => item.actionId) 
+      .filter((item) => item.actionId)
       .map((item) => ({
         actionId: item.actionId,
         actionName: item.actionName,
@@ -180,7 +182,7 @@ const AddProfile = () => {
                 id: `action-${action.action_id}`,
                 label: action.action_name,
                 checked: false,
-                parentId: `menu-${menu.menu_id}`, 
+                parentId: `menu-${menu.menu_id}`,
                 level: 1,
               }))),
           ...children.map(mapMenuToTree),
@@ -200,7 +202,7 @@ const AddProfile = () => {
         if (node.checked) {
           if (node.id.startsWith("action-")) {
             checkedItems.push({
-              menuId: node.parentId, 
+              menuId: node.parentId,
               actionId: node.id,
               actionName: node.label,
             });
@@ -227,11 +229,149 @@ const AddProfile = () => {
   };
 
   const handleActionClick = (actionName, profileName) => {
-    console.log("Button Clicked");
-    console.log("Action:",actionName , "Profile:",profileName);
+    switch (actionName.toLowerCase()) {
+      case "add":
+        handleAdd(profileName);
+        break;
+      case "edit":
+        handleEdit(profileName);
+        break;
+      case "delete":
+        handleDelete(profileName);
+        break;
+      case "view":
+        handleView(profileName);
+        break;
+      case "auth":
+        handleAuth(profileName);
+        break;
+      case "deauth":
+        handleDeauth(profileName);
+        break;
+      default:
+        console.log("Unknown action:", actionName);
+    }
   };
 
-  
+  const handleAdd = async (profileName) => {
+    console.log(`Adding new data for profile: ${profileName}`);
+
+    // Check if selectedInstitution is defined
+    if (!selectedInstitution) {
+
+      console.error("Institution ID is not defined");
+      return;
+    }
+
+    // Ensure checkedTreeData is not empty
+    if (!checkedTreeData || checkedTreeData.length === 0) {
+      console.error("Checked tree data is empty or undefined");
+      return;
+    }
+
+    // Prepare the data to be sent in the request body
+    const addProfileBody = {
+      profile_info: {
+        profile_name: profileName,
+        inst_id: selectedInstitution, // Ensure this has the correct institution ID
+      },
+      menu_info: checkedTreeData
+        .map((item) => {
+          // Safeguard for menuId
+          const menuId = item.menuId
+            ? parseInt(item.menuId.replace("menu-", ""))
+            : null;
+
+          // Filter actions and ensure actionId exists
+          const actions = checkedTreeData
+            .filter(
+              (actionItem) =>
+                actionItem.menuId === item.menuId && actionItem.actionId
+            )
+            .map((actionItem) => {
+              // Safeguard for actionId
+              return actionItem.actionId
+                ? parseInt(actionItem.actionId.replace("action-", ""))
+                : null;
+            })
+            .filter((action) => action !== null); // Remove nulls
+
+          return {
+            menu_id: menuId,
+            actions: actions,
+            is_configuration: item.isConfiguration || 2, // Default value if not provided
+          };
+        })
+        .filter((menu) => menu.menu_id !== null), // Remove any menus with null menu_id
+    };
+
+    // Debugging: Log the assembled payload to inspect its structure
+    console.log("Assembled Payload:", addProfileBody);
+
+    try {
+      const token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVZGlkIjoiMTIzNDU2Nzg5MDEyMzQ1NjciLCJDdXN0b21lcklEIjoiMiIsImV4cCI6MTcyNDc4MjAzNywiaXNzIjoiV0VCX0FETUlOIn0.aaykp3anmLbvEddbuoezhMGisk80fFFoygJ4i7wiOBk"; // Replace with the actual token
+      const apiUrl =
+        "https://api-innovitegra.online/webadmin/profiles/add_profile";
+
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(addProfileBody),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+      console.log("Profile added successfully:", responseData);
+      // Handle success, e.g., show a success message, update state, etc.
+    } catch (error) {
+      console.error("Error adding profile:", error);
+      // Handle error, e.g., show an error message
+    }
+  };
+
+  const handleEdit = (profileName) => {
+    // Logic to edit existing data
+    console.log(`Editing data for profile: ${profileName}`);
+    // Example: Open a form or modal with the current data to edit
+  };
+
+  const handleDelete = (profileName) => {
+    // Logic to delete data
+    console.log(`Deleting data for profile: ${profileName}`);
+    // Example: Show a confirmation dialog before deleting
+    const confirmDelete = window.confirm(
+      `Are you sure you want to delete data for ${profileName}?`
+    );
+    if (confirmDelete) {
+      // Perform the delete operation
+      console.log(`Data for ${profileName} has been deleted.`);
+    }
+  };
+
+  const handleView = (profileName) => {
+    // Logic to view details
+    console.log(`Viewing data for profile: ${profileName}`);
+    // Example: Redirect to a details page or open a modal with details
+  };
+
+  const handleAuth = (profileName) => {
+    // Logic to authorize a profile
+    console.log(`Authorizing profile: ${profileName}`);
+    // Example: Send a request to authorize the profile
+  };
+
+  const handleDeauth = (profileName) => {
+    // Logic to deauthorize a profile
+    console.log(`Deauthorizing profile: ${profileName}`);
+    // Example: Send a request to deauthorize the profile
+  };
 
   return (
     <div className="flex flex-col gap-1">

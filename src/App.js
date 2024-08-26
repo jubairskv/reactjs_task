@@ -21,7 +21,7 @@ const appRouter = createBrowserRouter([
     element: <Body />,
     children: [
       {
-        path:"",
+        path: "",
         element: <Dashborad />,
       },
       {
@@ -32,7 +32,7 @@ const appRouter = createBrowserRouter([
         path: "user",
         element: <User />,
       },
-      
+
       {
         path: "addprofile",
         element: <AddProfile />,
