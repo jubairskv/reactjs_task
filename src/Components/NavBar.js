@@ -3,13 +3,14 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { FaRegBell } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa";
 import { IoSearchOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   return (
     <div className="w-[85rem] h-24 bg-slate-100 border border-slate-300 flex justify-evenly items-center ">
       <div className="font-bold text-2xl flex flex-1 ml-10">
         <h1>
-          <a href="/body">Dashboard</a>
+          <Link to="">Dashboard</Link>
         </h1>
       </div>
       <div className="flex gap-8 mr-10">
