@@ -28,7 +28,7 @@ const SideBarMenu = ({ data }) => {
   };
 
   return (
-    <div className="bg-white border border-slate-300 w-52 h-[100vh] flex flex-col items-center text-xl">
+    <div className="flex flex-col items-center text-xl bg-white border border-slate-300 w-screen h-[100vh] ">
       <div className="mt-7">
         <h1 className="text-blue-700 font-bold text-3xl">First Bank</h1>
       </div>

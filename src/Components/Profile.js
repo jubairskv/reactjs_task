@@ -14,7 +14,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfileData = async () => {
       const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVZGlkIjoiMTIzNDU2Nzg5MDEyMzQ1NjciLCJDdXN0b21lcklEIjoiMiIsImV4cCI6MTcyNDc4MjAzNywiaXNzIjoiV0VCX0FETUlOIn0.aaykp3anmLbvEddbuoezhMGisk80fFFoygJ4i7wiOBk"; // Replace with your actual Bearer token
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVZGlkIjoiMTIzNDU2Nzg5MDEyMzQ1NjciLCJDdXN0b21lcklEIjoiMiIsImV4cCI6MTcyNTEyNzAwMCwiaXNzIjoiV0VCX0FETUlOIn0.pamsr_kCY360c9_3jyVZoZwULD1oLJwmQ9J6EWlEzRQ"; // Replace with your actual Bearer token
       const apiUrl =
         "https://api-innovitegra.online/webadmin/profiles/list_profiles";
       try {

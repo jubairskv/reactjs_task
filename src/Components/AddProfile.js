@@ -59,7 +59,7 @@ const AddProfile = () => {
 
     const fetchProfileData = async () => {
       const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVZGlkIjoiMTIzNDU2Nzg5MDEyMzQ1NjciLCJDdXN0b21lcklEIjoiMiIsImV4cCI6MTcyNDc4MjAzNywiaXNzIjoiV0VCX0FETUlOIn0.aaykp3anmLbvEddbuoezhMGisk80fFFoygJ4i7wiOBk";
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVZGlkIjoiMTIzNDU2Nzg5MDEyMzQ1NjciLCJDdXN0b21lcklEIjoiMiIsImV4cCI6MTcyNTEyNzAwMCwiaXNzIjoiV0VCX0FETUlOIn0.pamsr_kCY360c9_3jyVZoZwULD1oLJwmQ9J6EWlEzRQ";
       const apiUrl = "https://api-innovitegra.online/webadmin/inst/view_inst";
 
       try {
@@ -93,10 +93,10 @@ const AddProfile = () => {
 
   const handleInstitutionChange = (e) => {
     setSelectedInstitution(e.target.value);
-    console.log(e.target.value);
+    //console.log(e.target.value);
   };
 
-  console.log(selectedInstitution);
+  //console.log(selectedInstitution);
 
   const selectedCheckboxes = checkData.map((item) => {
     console.log(item);
@@ -164,7 +164,7 @@ const AddProfile = () => {
     setSelectedInstitution("");
     setErrors({});
   };
-  console.log(selectedInstitution);
+  //console.log(selectedInstitution);
 
   const mapMenuItemsToTreeData = (menuItems) => {
     const mapMenuToTree = (menu) => {
@@ -257,7 +257,7 @@ const AddProfile = () => {
     }
   };
 
-  console.log(selectedInstitution);
+  //console.log(selectedInstitution);
 
   const handleAdd = async (profileName, selectedInstitution,checkedTreeData) => {
     console.log(`Adding new data for profile: ${profileName}`);

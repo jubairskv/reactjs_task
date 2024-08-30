@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 const NavBar = () => {
   return (
-    <div className="w-[85rem] h-24 bg-slate-100 border border-slate-300 flex justify-evenly items-center ">
+    <div className="flex justify-evenly items-center w-[90rem] h-24 bg-slate-100 border border-slate-300  ">
       <div className="font-bold text-2xl flex flex-1 ml-10">
         <h1>
           <Link to="">Dashboard</Link>
