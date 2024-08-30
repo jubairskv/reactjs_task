@@ -5,7 +5,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [userName, setuserName] = useState("");
   const [password, setPassword] = useState("");
-  const [userType] = useState("CORPORATE"); 
+  const [userType] = useState("CORPORATE");
 
   const API_URL = "https://api-innovitegra.online/webadmin/user/user_login";
 
@@ -29,6 +29,11 @@ const LoginPage = () => {
       });
       //console.log(response);
 
+      // password: "Abc@123!@#";
+      // user_name: "SuperAdmin2";
+      // user_type: "CORPORATE";
+
+
       const data = await response.json();
 
       if (response.ok && data.code === 1) {
@@ -46,7 +51,9 @@ const LoginPage = () => {
     <div className="flex flex-row">
       <div className="pl-40 pt-32">
         <div className="flex flex-col items-start">
-          <h1 className="font-bold text-4xl text-nowrap">Login to your  Account !</h1>
+          <h1 className="font-bold text-4xl text-nowrap">
+            Login to your Account !
+          </h1>
           <p className="pt-2 text-gray-500 ">Let's get's access the website</p>
         </div>
         <div className="pt-8">
